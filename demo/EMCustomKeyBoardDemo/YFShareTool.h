@@ -14,6 +14,8 @@ typedef void(^SucceessBlock)(BOOL isSuccess, NSString* message);
 
 @interface YFShareTool : NSObject
 
++ (instancetype) sharedScreenShot;
+
 /**
  *  分享
  *  分享图片
@@ -26,16 +28,29 @@ typedef void(^SucceessBlock)(BOOL isSuccess, NSString* message);
  *  + (NSString *)getScreenShotPathWithTargetScrollView:(UIScrollView *)scrollView方法获取截图地址，在
  *  通过[NSURL fileURLWithPath:filePath]得到url传入items里面即可
  */
-+(void)nstiveShare:(NSArray *)items target:(id)target success:(SucceessBlock)successBlock;
+-(void)nativeShare:(NSArray *)items target:(id)target success:(SucceessBlock)successBlock;
 
 //获得截图保存在本地的地址
-+(NSString *)getScreenShotPathWithTargetScrollView:(UIScrollView *)scrollView;
+-(NSString *)getScreenShotPathWithTargetScrollView:(UIScrollView *)scrollView;
 
-//- (void)embedApplication:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
-//
-//+ (instancetype) sharedScreenShot;
+//开启截屏分享功能
+- (void)enableSharedScreenShot;
 
-+(NSString *)getScreenShotPathWithTargetScrollView:(UIScrollView *)scrollView andMapView:(UIImage *)mapViewImg andMapViewY:(CGFloat)y;
+/**
+ 获取屏幕截图
+ size：需求截取的尺寸
+ **/
+-(UIImage *)imageWithScreenshotWithSize:(CGSize)size;
+
+/**
+ shotImg:已取的的截屏图片，用于拼接二维码然后分享
+ **/
+-(void)shareCodeImageWithShot:(UIImage *)shotImg andResult:(SucceessBlock)resultBlock;
+
+/**
+ scrollView:截取scrollView成一张图片
+ **/
+-(UIImage *)getImageFromeScrollView:(UIScrollView *)scrollView;
 
 @end
 
