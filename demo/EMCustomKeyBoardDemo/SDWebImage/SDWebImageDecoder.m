@@ -12,6 +12,7 @@
 
 @implementation UIImage (ForceDecode)
 
+//解码图片
 + (UIImage *)decodedImageWithImage:(UIImage *)image {
     if (image.images) {
         // Do not decode animated images
