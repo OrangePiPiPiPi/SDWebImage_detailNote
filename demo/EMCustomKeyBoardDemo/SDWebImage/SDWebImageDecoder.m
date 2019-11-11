@@ -13,6 +13,19 @@
 @implementation UIImage (ForceDecode)
 
 //解码图片
+/**
+ 首先，我们要弄明白一个问题？ 为什么要对UIImage进行解码呢？难道不能直接使用吗？
+ 
+ 其实不解码也是可以使用的，假如说我们通过imageNamed:来加载image，系统默认会在主线程立即进行图片的解码工作。这一过程就是把image解码成可供控件直接使用的位图。
+ 
+ 当在主线程调用了大量的imageNamed:方法后，就会产生卡顿了。为了解决这个问题我们有两种比较简单的处理方法：
+ 
+ 我们不使用imageNamed:加载图片，使用其他的方法，比如imageWithContentsOfFile:
+ 我们自己解码图片，可以把这个解码过程放到子线程
+ 
+ https://www.cnblogs.com/machao/p/6150636.html   
+ 
+ **/
 + (UIImage *)decodedImageWithImage:(UIImage *)image {
     if (image.images) {
         // Do not decode animated images

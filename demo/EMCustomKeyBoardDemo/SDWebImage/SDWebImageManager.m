@@ -81,12 +81,16 @@
 }
 
 - (BOOL)cachedImageExistsForURL:(NSURL *)url {
+    //生成key
     NSString *key = [self cacheKeyForURL:url];
+    //先去内存中找是否有缓存
     if ([self.imageCache imageFromMemoryCacheForKey:key] != nil) return YES;
+    //再去磁盘中找是否有缓存
     return [self.imageCache diskImageExistsWithKey:key];
 }
 
 - (BOOL)diskImageExistsForURL:(NSURL *)url {
+     //去磁盘中找是否有缓存
     NSString *key = [self cacheKeyForURL:url];
     return [self.imageCache diskImageExistsWithKey:key];
 }
@@ -109,6 +113,7 @@
     
     [self.imageCache diskImageExistsWithKey:key completion:^(BOOL isInDiskCache) {
         // the completion block of checkDiskCacheForImageWithKey:completion: is always called on the main queue, no need to further dispatch
+        //因为completion这个block已经在主线程回调了，故执行下面的block就是在主线程
         if (completionBlock) {
             completionBlock(isInDiskCache);
         }
@@ -121,6 +126,7 @@
     
     [self.imageCache diskImageExistsWithKey:key completion:^(BOOL isInDiskCache) {
         // the completion block of checkDiskCacheForImageWithKey:completion: is always called on the main queue, no need to further dispatch
+        // //因为completion这个block已经在主线程回调了，故执行下面的block就是在主线程
         if (completionBlock) {
             completionBlock(isInDiskCache);
         }
@@ -379,6 +385,7 @@
     }
 }
 
+//取消下载操作
 - (void)cancelAll {
     @synchronized (self.runningOperations) {
         NSArray *copiedOperations = [self.runningOperations copy];
