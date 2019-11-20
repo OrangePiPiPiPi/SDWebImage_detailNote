@@ -52,6 +52,7 @@ static char imageURLKey;
     }
     */
     //这是一个宏定义,因为图像的绘制只能在主线程完成,所以dispatch_main_sync_safe就是为了保证block在主线程中执行
+    
     //如果options的值不是SDWebImageDelayPlaceholder的时候就执行 self.image = placeholder;
     if (!(options & SDWebImageDelayPlaceholder)) {
         dispatch_main_async_safe(^{
@@ -71,6 +72,7 @@ static char imageURLKey;
                     wself.image = image;
                     [wself setNeedsLayout];
                 } else {
+                    //如果设置了SDWebImageDelayPlaceholder，此时补上站位图，不是SDWebImageDelayPlaceholder在前面已经设置过展位图了
                     if ((options & SDWebImageDelayPlaceholder)) {
                         wself.image = placeholder;
                         [wself setNeedsLayout];
@@ -94,6 +96,7 @@ static char imageURLKey;
     }
 }
 
+//该方法是想使用之前缓存中的图片作为展位图，如果有就使用缓存的图片作为展位图，没有就使用传入的站位图
 - (void)sd_setImageWithPreviousCachedImageWithURL:(NSURL *)url andPlaceholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
     NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:url];
     UIImage *lastPreviousCachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:key];

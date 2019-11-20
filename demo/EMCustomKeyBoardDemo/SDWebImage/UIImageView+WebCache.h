@@ -9,6 +9,9 @@
 #import "SDWebImageCompat.h"
 #import "SDWebImageManager.h"
 
+//因为该分类的.h文件中使用了SDWebImageManager文件中定义的SDWebImageOptions枚举，故#import "SDWebImageManager.h"头文件必须放在这里
+
+
 /**
  * Integrates SDWebImage async downloading and caching of remote images with UIImageView.
  *

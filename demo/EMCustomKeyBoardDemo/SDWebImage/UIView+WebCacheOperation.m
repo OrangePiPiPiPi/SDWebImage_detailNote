@@ -26,7 +26,9 @@ static char loadOperationKey;
 
 //将视图的操作operation添加到当期UIView的一个属性字典operationDictionary里记录，记录之前先取消字典里旧的操作，并删除该记录
 - (void)sd_setImageLoadOperation:(id)operation forKey:(NSString *)key {
+    //当拿到key和operation时，先取消该key对应的operation
     [self sd_cancelImageLoadOperationWithKey:key];
+    //再将该operation添加到字典里
     NSMutableDictionary *operationDictionary = [self operationDictionary];
     [operationDictionary setObject:operation forKey:key];
 }

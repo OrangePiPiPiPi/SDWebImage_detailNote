@@ -133,6 +133,7 @@
     }];
 }
 
+//重要方法
 - (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url
                                          options:(SDWebImageOptions)options
                                         progress:(SDWebImageDownloaderProgressBlock)progressBlock
@@ -246,7 +247,7 @@
              imageManager:shouldDownloadImageForURL:该方法主要作用是当缓存里没有发现某张图片的缓存时,是否选择下载这张图片(默认是yes),可以选择no,那么sdwebimage在缓存中没有找到这张图片的时候不会选择下载
              (![self.delegate respondsToSelector:@selector(imageManager:shouldDownloadImageForURL:)] || [self.delegate imageManager:self shouldDownloadImageForURL:url])：即代理没有实现该方法（该方法默认是YES）或者返回的是YES,都表明需求下载图片
              **/
-            
+            //下面进入下载过程
             if (image && options & SDWebImageRefreshCached) {
                 //有图片，但是设置了SDWebImageRefreshCached,回调image（completedBlock(image, nil, cacheType, YES, url);），但是继续往下执行下载更新该图片的操作
                 dispatch_main_sync_safe(^{
@@ -351,6 +352,9 @@
                     [self.runningOperations removeObject:weakOperation];
                 }
             };
+            //==================================================================
+            
+            
         }else if (image) {
             //有缓存图片
             dispatch_main_sync_safe(^{

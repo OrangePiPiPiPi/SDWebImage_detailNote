@@ -46,6 +46,7 @@
     return self;
 }
 
+//设置最大并发数
 - (void)setMaxConcurrentDownloads:(NSUInteger)maxConcurrentDownloads {
     self.manager.imageDownloader.maxConcurrentDownloads = maxConcurrentDownloads;
 }
@@ -54,6 +55,7 @@
     return self.manager.imageDownloader.maxConcurrentDownloads;
 }
 
+//批量图片下载
 - (void)startPrefetchingAtIndex:(NSUInteger)index {
     if (index >= self.prefetchURLs.count) return;
     self.requestedCount++;
@@ -110,10 +112,12 @@
     }
 }
 
+//不需要过程和结果回调的方法，但是也是调用下面的方法
 - (void)prefetchURLs:(NSArray *)urls {
     [self prefetchURLs:urls progress:nil completed:nil];
 }
 
+//预下载，通过循环的方式调用startPrefetchingAtIndex方法
 - (void)prefetchURLs:(NSArray *)urls progress:(SDWebImagePrefetcherProgressBlock)progressBlock completed:(SDWebImagePrefetcherCompletionBlock)completionBlock {
     [self cancelPrefetching]; // Prevent duplicate prefetch request
     self.startedTime = CFAbsoluteTimeGetCurrent();

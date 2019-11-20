@@ -11,6 +11,8 @@
 
 @class SDWebImagePrefetcher;
 
+//批量图片下载
+
 @protocol SDWebImagePrefetcherDelegate <NSObject>
 
 @optional
